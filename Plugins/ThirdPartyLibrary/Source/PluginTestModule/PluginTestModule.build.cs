@@ -14,7 +14,6 @@ public class PluginTestModule : ModuleRules
 
         PublicIncludePaths.AddRange(
             new string[] {
-				"PluginTestModule/IncludePathTest"
 			}
             );
         // Uncomment if you are using Slate UI
