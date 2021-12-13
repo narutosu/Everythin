@@ -14,19 +14,19 @@ void FEditorToolbarButtonModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	
-	FEditorToolbarButtonStyle::Initialize();
-	FEditorToolbarButtonStyle::ReloadTextures();
-
-	FEditorToolbarButtonCommands::Register();
-	
-	PluginCommands = MakeShareable(new FUICommandList);
-
-	PluginCommands->MapAction(
-		FEditorToolbarButtonCommands::Get().PluginAction,
-		FExecuteAction::CreateRaw(this, &FEditorToolbarButtonModule::PluginButtonClicked),
-		FCanExecuteAction());
-
-	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FEditorToolbarButtonModule::RegisterMenus));
+// 	FEditorToolbarButtonStyle::Initialize();
+// 	FEditorToolbarButtonStyle::ReloadTextures();
+// 
+// 	FEditorToolbarButtonCommands::Register();
+// 	
+// 	PluginCommands = MakeShareable(new FUICommandList);
+// 
+// 	PluginCommands->MapAction(
+// 		FEditorToolbarButtonCommands::Get().PluginAction,
+// 		FExecuteAction::CreateRaw(this, &FEditorToolbarButtonModule::PluginButtonClicked),
+// 		FCanExecuteAction());
+// 
+// 	UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(this, &FEditorToolbarButtonModule::RegisterMenus));
 }
 
 void FEditorToolbarButtonModule::ShutdownModule()
@@ -34,13 +34,13 @@ void FEditorToolbarButtonModule::ShutdownModule()
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
-	UToolMenus::UnRegisterStartupCallback(this);
-
-	UToolMenus::UnregisterOwner(this);
-
-	FEditorToolbarButtonStyle::Shutdown();
-
-	FEditorToolbarButtonCommands::Unregister();
+// 	UToolMenus::UnRegisterStartupCallback(this);
+// 
+// 	UToolMenus::UnregisterOwner(this);
+// 
+// 	FEditorToolbarButtonStyle::Shutdown();
+// 
+// 	FEditorToolbarButtonCommands::Unregister();
 }
 
 void FEditorToolbarButtonModule::PluginButtonClicked()

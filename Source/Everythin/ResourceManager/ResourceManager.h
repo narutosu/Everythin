@@ -17,9 +17,13 @@ class EVERYTHIN_API UResourceManager : public UObject
 	UResourceManager();
 	~UResourceManager();
 public:
-	//无缝加载关卡
+	//无缝加载切换关卡
 	UFUNCTION(BlueprintCallable, Category = "Study")
 	bool SeamlessTravel(FString name);
+
+	//切换关卡
+	UFUNCTION(BlueprintCallable, Category = "Study")
+	bool SyncTravel(FString name);
 private:
 	UGameInstance* m_GameInstance;
 };
