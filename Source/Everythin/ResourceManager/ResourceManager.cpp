@@ -9,6 +9,9 @@
 #include "Engine/GameEngine.h"
 #endif
 #include "Kismet/GameplayStatics.h"
+#include "MoviePlayer/Public/MoviePlayer.h"
+#include "Blueprint/UserWidget.h"
+#include "ActionRPGLoadingScreen.h"
 
 DEFINE_LOG_CATEGORY(ResourceManagerLog);
 
@@ -20,6 +23,9 @@ UResourceManager::UResourceManager()
 		//m_GameInstance = UGameplayStatics::GetGameInstance(GetWorld());
 		//m_GameInstance = GetWorld()->GetGameInstance();
 	}
+
+	FCoreUObjectDelegates::PreLoadMap.AddUObject(this,&UResourceManager::BeginLoadingScreen);
+	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UResourceManager::EndLoadingScreen);
 }
 
 
@@ -42,4 +48,38 @@ bool UResourceManager::SyncTravel(FString name)
 	return true;
 }
 
+void UResourceManager::BeginLoadingScreen(const FString& MapName)
+{
+	UE_LOG(ResourceManagerLog, Warning, TEXT("BeginLoadingScreen %s"), *MapName);
+	FLoadingScreenAttributes LoadingScreen;
+	LoadingScreen.bAutoCompleteWhenLoadingCompletes = false;
+	LoadingScreen.bWaitForManualStop = true;
+	LoadingScreen.bAllowEngineTick = true;
+
+	LoadingScreen.bMoviesAreSkippable = true;//任意键打断如果加载完成
+	//LoadingScreen.bWaitForManualStop = true;//
+	LoadingScreen.MinimumLoadingScreenDisplayTime = 10.f;
+	//LoadingScreen.PlaybackType = EMoviePlaybackType::MT_Looped;
+// 	TSubclassOf<UUserWidget> umgClass1 = LoadClass<UUserWidget>(this, TEXT("/Game/seamlessTravel/LoadingScreamUmg.LoadingScreamUmg_C"));
+// 	TSubclassOf<UUserWidget> umgClass2 = m_StreamableManager.LoadSynchronous<UClass>(FSoftObjectPath("/Game/seamlessTravel/LoadingScreamUmg.LoadingScreamUmg_C"));
+// 	//不知道怎么destroy..
+// 	m_GameInstance = GWorld ? GWorld->GetGameInstance() : nullptr;
+// 	UUserWidget* inWidget = CreateWidget<UUserWidget>(m_GameInstance, umgClass1);//应该有垃圾回收
+// 	TSharedPtr<SWidget> WidgetPtr = inWidget->TakeWidget();
+	LoadingScreen.WidgetLoadingScreen = SNew(SRPGLoadingScreen);
+
+	LoadingScreen.MoviePaths.Add("squad_intro_movie");
+	GetMoviePlayer()->SetupLoadingScreen(LoadingScreen);
+}
+
+void UResourceManager::EndLoadingScreen(UWorld* world)
+{
+	UE_LOG(ResourceManagerLog, Warning, TEXT("EndLoadingScreen %s"), *world->GetName());
+	GetMoviePlayer()->StopMovie();
+}
+
+FStreamableManager& UResourceManager::GetStreamMgr()
+{
+	return m_StreamableManager;
+}
 

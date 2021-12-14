@@ -10,7 +10,7 @@ public class Everythin : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "PluginTestModule" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "PluginTestModule","MoviePlayer","UMG","Slate","SlateCore"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

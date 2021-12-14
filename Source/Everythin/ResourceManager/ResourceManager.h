@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Engine/StreamableManager.h"
 #include "ResourceManager.generated.h"
 DECLARE_LOG_CATEGORY_EXTERN(ResourceManagerLog, All, All);
 class UGameInstance;
@@ -24,6 +25,15 @@ public:
 	//切换关卡
 	UFUNCTION(BlueprintCallable, Category = "Study")
 	bool SyncTravel(FString name);
+
+	UFUNCTION(BlueprintCallable, Category = "Study")
+	void BeginLoadingScreen(const FString& MapName);
+public:
+	
+	void EndLoadingScreen(UWorld* world);
+
+	FStreamableManager& GetStreamMgr();
 private:
 	UGameInstance* m_GameInstance;
+	FStreamableManager m_StreamableManager;
 };
