@@ -21,11 +21,5 @@
 				"CoreUObject"
 			]
 		}
-	],
-	"Plugins": [
-		{
-			"Name": "ThirdPartyLibrary",
-			"Enabled": false
-		}
 	]
 }

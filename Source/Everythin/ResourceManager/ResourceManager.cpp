@@ -24,8 +24,8 @@ UResourceManager::UResourceManager()
 		//m_GameInstance = GetWorld()->GetGameInstance();
 	}
 
-	FCoreUObjectDelegates::PreLoadMap.AddUObject(this,&UResourceManager::BeginLoadingScreen);
-	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UResourceManager::EndLoadingScreen);
+	//FCoreUObjectDelegates::PreLoadMap.AddUObject(this,&UResourceManager::BeginLoadingScreen);
+	//FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UResourceManager::EndLoadingScreen);
 }
 
 
