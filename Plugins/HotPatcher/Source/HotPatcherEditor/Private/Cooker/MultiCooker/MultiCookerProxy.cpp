@@ -78,6 +78,7 @@ void SaveGlobalShaderMapFiles(const TArrayView<const ITargetPlatform* const>& Pl
 	{
 		// make sure global shaders are up to date!
 		TArray<FString> Files;
+		TArray<FODSCRequestPayload> ShadersToRecompile;
 		FShaderRecompileData RecompileData;
 		RecompileData.PlatformName = Platforms[Index]->PlatformName();
 		// Compile for all platforms
@@ -93,6 +94,7 @@ void SaveGlobalShaderMapFiles(const TArrayView<const ITargetPlatform* const>& Pl
 			RecompileData.ShaderPlatform == -1 ? SP_NumPlatforms : (EShaderPlatform)RecompileData.ShaderPlatform, //-V547
 			OutputDir, 
 			RecompileData.MaterialsToLoad, 
+			ShadersToRecompile,
 			RecompileData.MeshMaterialMaps, 
 			RecompileData.ModifiedFiles);
 	}

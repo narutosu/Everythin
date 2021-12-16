@@ -5,7 +5,7 @@ console.warn("Script init of TsTestActor ");
 
 class TsTestActor extends UE.Actor {
     static PrintVersion(){
-        console.log(" version release");
+        console.log("PatchTestJs QuickStart ================== TsTestActor: HotPatcher new 01");
     };
 }
 

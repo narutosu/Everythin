@@ -26,6 +26,10 @@
 		{
 			"Name": "Puerts",
 			"Enabled": true
+		},
+		{
+			"Name": "HotPatcher",
+			"Enabled": true
 		}
 	]
 }
