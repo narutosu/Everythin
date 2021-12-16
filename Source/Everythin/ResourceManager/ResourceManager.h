@@ -34,6 +34,8 @@ public:
 
 	FStreamableManager& GetStreamMgr();
 private:
+	void OnAssetLoaded(UObject* Asset);
+private:
 	UGameInstance* m_GameInstance;
 	FStreamableManager m_StreamableManager;
 };

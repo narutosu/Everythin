@@ -17,6 +17,9 @@ DEFINE_LOG_CATEGORY(ResourceManagerLog);
 
 UResourceManager::UResourceManager()
 {
+#if WITH_EDITOR
+	FCoreUObjectDelegates::OnAssetLoaded.AddUObject(this, &UResourceManager::OnAssetLoaded);
+#endif
 	if (m_GameInstance == nullptr)
 	{
 		m_GameInstance = GWorld ? GWorld->GetGameInstance() : nullptr;
@@ -81,5 +84,10 @@ void UResourceManager::EndLoadingScreen(UWorld* world)
 FStreamableManager& UResourceManager::GetStreamMgr()
 {
 	return m_StreamableManager;
+}
+
+void UResourceManager::OnAssetLoaded(UObject* Asset)
+{
+	UE_LOG(ResourceManagerLog, Warning, TEXT("AssetLoades %s"), *Asset->GetName());
 }
 

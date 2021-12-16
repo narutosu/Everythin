@@ -16,5 +16,8 @@ class EVERYTHIN_API UTestBlueprintFunctionLibrary : public UBlueprintFunctionLib
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Pak")
-		void LoadPakComplete();
+		static void LoadPakComplete();
+
+	UFUNCTION(BlueprintCallable, Category = "Print")
+		static void PrintObject(FText objPath);
 };
