@@ -21,5 +21,11 @@
 				"CoreUObject"
 			]
 		}
+	],
+	"Plugins": [
+		{
+			"Name": "Puerts",
+			"Enabled": true
+		}
 	]
 }

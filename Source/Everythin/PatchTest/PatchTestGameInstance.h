@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/GameInstance.h"
+#include "../TsGameInstance.h"
 #include "PatchTestGameInstance.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPatchCompleteDelegate, bool, Succeeded);
@@ -11,7 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPatchCompleteDelegate, bool, Succee
  * 
  */
 UCLASS()
-class EVERYTHIN_API UPatchTestGameInstance : public UGameInstance
+class EVERYTHIN_API UPatchTestGameInstance : public UTsGameInstance
 {
 	GENERATED_BODY()
 public:

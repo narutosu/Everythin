@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/GameInstance.h"
+#include "../TsGameInstance.h"
 #include "ResourceTestGameInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class EVERYTHIN_API UResourceTestGameInstance : public UGameInstance
+class EVERYTHIN_API UResourceTestGameInstance : public UTsGameInstance
 {
 	GENERATED_BODY()
 	UResourceTestGameInstance();
