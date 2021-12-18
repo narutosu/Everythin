@@ -10,7 +10,7 @@
 void UPatchTestGameInstance::Init()
 {
     Super::Init();
-
+        
     const FString DeploymentName = "EverythinLive";
     const FString ContentBuildId = "EverythinKey";
 
@@ -53,11 +53,17 @@ bool UPatchTestGameInstance::PatchGame()
             UE_LOG(LogTemp, Display, TEXT("Chunk %i status: %i"), ChunkID, ChunkStatus);
         }
 
-        TFunction<void (bool bSuccess)> DownloadCompleteCallback = [&](bool bSuccess){OnDownloadComplete(bSuccess);};
+        TFunction<void (bool bSuccess)> DownloadCompleteCallback = [&](bool bSuccess){
+            UE_LOG(LogTemp, Warning, TEXT("OnDownloadComplete %d"),bSuccess);
+            OnDownloadComplete(bSuccess);
+        };
         Downloader->DownloadChunks(ChunkDownloadList, DownloadCompleteCallback, 1);
 
         // start loading mode
-        TFunction<void (bool bSuccess)> LoadingModeCompleteCallback = [&](bool bSuccess){OnLoadingModeComplete(bSuccess);};
+        TFunction<void (bool bSuccess)> LoadingModeCompleteCallback = [&](bool bSuccess){
+            UE_LOG(LogTemp, Warning, TEXT("OnLoadingModeComplete %d"), bSuccess);
+            OnLoadingModeComplete(bSuccess);
+        };
         Downloader->BeginLoadingMode(LoadingModeCompleteCallback);
         return true;
     }
@@ -71,11 +77,16 @@ void UPatchTestGameInstance::OnManifestUpdateComplete(bool bSuccess)
 {
     UE_LOG(LogTemp, Display, TEXT("OnManifestUpdateComplete %d"), bSuccess);
     bIsDownloadManifestUpToDate = bSuccess;
+    if(bIsDownloadManifestUpToDate)
+        PatchGame();
 }
 
 
 void UPatchTestGameInstance::OnDownloadComplete(bool bSuccess)
 {
+#if WITH_EDITOR
+    OnMountCompleteDele.Broadcast(true);
+#else
 if (bSuccess)
     {
         UE_LOG(LogTemp, Display, TEXT("Download complete"));
@@ -94,8 +105,7 @@ if (bSuccess)
         TFunction<void(bool bSuccess)> MountCompleteCallback = [&](bool bSuccess){OnMountComplete(bSuccess);};
         Downloader->MountChunks(DownloadedChunks, MountCompleteCallback);
 
-        OnPatchComplete.Broadcast(true);
-
+		OnPatchComplete.Broadcast(true);
     }
     else
     {
@@ -105,6 +115,7 @@ if (bSuccess)
         // call the delegate
         OnPatchComplete.Broadcast(false);
     }
+#endif
 }
 
 void UPatchTestGameInstance::GetLoadingProgress(int32& BytesDownloaded, int32& TotalBytesToDownload, float& DownloadPercent, int32& ChunksMounted, int32& TotalChunksToMount, float& MountPercent) const
@@ -135,5 +146,5 @@ void UPatchTestGameInstance::OnLoadingModeComplete(bool bSuccess)
 
 void UPatchTestGameInstance::OnMountComplete(bool bSuccess)
 {
-    OnPatchComplete.Broadcast(bSuccess);
+    OnMountCompleteDele.Broadcast(bSuccess);
 }

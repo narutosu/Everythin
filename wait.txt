@@ -1,1 +1,7 @@
-1:四种引用的加载实验，蓝图与c++各自的表示方法。SoftObjecReference，SotfObjectPath,SoftObjectPtr
+问题
+**********是***  2:ChunkDownLoader是否会删除无用Chunk
+********** ****   1:四种引用的加载实验，蓝图与c++各自的表示方法。SoftObjecReference，SotfObjectPath,SoftObjectPtr
+
+
+记录：
+热更方案：https://blog.csdn.net/BDalasja/article/details/95622429

@@ -10,6 +10,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPatchCompleteDelegate, bool, Succee
 /**
  * 
  */
+
 UCLASS()
 class EVERYTHIN_API UPatchTestGameInstance : public UTsGameInstance
 {
@@ -24,6 +25,10 @@ public:
 	/** Fired when the patching process succeeds or fails */
 	UPROPERTY(BlueprintAssignable, Category="Patching");
 	FPatchCompleteDelegate OnPatchComplete;
+
+	/** Fired when the patching process succeeds or fails */
+	UPROPERTY(BlueprintAssignable, Category = "Patching");
+	FPatchCompleteDelegate OnMountCompleteDele;
 
 	/** Starts the game patching process. Returns false if the patching manifest is not up to date. */
 	UFUNCTION(BlueprintCallable, Category = "Patching")
