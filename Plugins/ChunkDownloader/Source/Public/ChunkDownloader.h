@@ -241,9 +241,9 @@ private:
 	FString EmbeddedFolder;
 
 	// build specific ID and URL paths
-	FString LastDeploymentName;
-	FString ContentBuildId;
-	TArray<FString> BuildBaseUrls;
+	FString LastDeploymentName;//±¾Àý£º127.0.0.1/EverythinCDN
+	FString ContentBuildId;//±¾Àý£ºEverythinKey
+	TArray<FString> BuildBaseUrls;//±¾Àý£º127.0.0.1/EverythinCDN/EverythinKey
 
 	// chunk id to chunk record
 	TMap<int32,TSharedRef<FChunk>> Chunks;

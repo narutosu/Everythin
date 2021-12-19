@@ -10,15 +10,23 @@
 void UPatchTestGameInstance::Init()
 {
     Super::Init();
-        
-    const FString DeploymentName = "EverythinLive";
+    //DefaultGame.ini中配置的url。本例是 127.0.0.1/EverythinCDN。可以指定多个
+    const FString DeploymentName = "DeploymentName_EverythinLive";
+    //在上面的url目录下寻找文件夹，文件夹名为 EverythinKey
     const FString ContentBuildId = "EverythinKey";
 
     // initialize the chunk downloader
     TSharedRef<FChunkDownloader> Downloader = FChunkDownloader::GetOrCreate();
+
+    //初始化参数这俩变量
+    //FPaths::ProjectPersistentDownloadDir()/PakCache目录下; 检查LocalManifest.txt跟相同目录的.pak文件是否一致
+    //一致的标准是 pak名字跟大小一致。不一致的删除pak，并且在LocalManifest.txt中删除。
     Downloader->Initialize("Windows", 8);
 
     // load the cached build ID
+    //对比 CachedBuildManifest.txt跟LocalManifest.txt中的列表（经过上面那一步，LocalManifest.txt中跟本地pak已经一致）
+    //删除在CachedBuildManifest.txt没有的pak,并更新LocalManifest.txt
+    //对CachedBuildManifest.txt中的pak创建chunk任务。（Chunks跟PakFiles变量）。供后续步骤执行。
     Downloader->LoadCachedBuild(DeploymentName);
 
     // update the build manifest file
