@@ -10,6 +10,12 @@ AActorOne::AActorOne()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+AActorOne::~AActorOne()
+{
+	int i = 12;
+	i = 23;
+}
+
 // Called when the game starts or when spawned
 void AActorOne::BeginPlay()
 {

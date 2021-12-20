@@ -4,6 +4,7 @@
 #include "MainActor.h"
 #include "Engine/AssetManager.h"
 #include "../Everythin.h"
+#include "UObject/GCObjectScopeGuard.h"
 // Sets default values
 AMainActor::AMainActor()
 {
@@ -25,6 +26,23 @@ void AMainActor::BeginPlay()
 {
 	Super::BeginPlay();
 	actorOne = GWorld->SpawnActor<AActorOne>(actorOneClass, FVector::ZeroVector, FRotator::ZeroRotator);
+
+	{
+		auto x = actorOne->GetOwner();
+		//actorOne = nullptr;//这样也不会被销毁，ulevel里有个actors数组 spawn的actor存在那里面，所以不会被垃圾回收。销毁需要调用Destroy
+		actorOne->Destroy();//从ulevel的actors中删除，还会调用MarkPendingKill
+		auto isVd = actorOne->IsValidLowLevel();//True why?
+		actorOne = nullptr;//消除野指针
+		GEngine->ForceGarbageCollection(true);
+	}
+
+
+	{
+		const AActorTwo* GladOS = NewObject<AActorTwo>();
+		FGCObjectScopeGuard scop(GladOS);//这里虽然能保住GladOS不被销毁，但是出了这个{}的作用域，随着scop的销毁，GladOS照样会被销毁。目前没弄清楚FGCObjectScopeGuard的用法
+		auto isVd = GladOS->IsValidLowLevel();
+		GEngine->ForceGarbageCollection(true);
+	}
 
 	UMaterial* obj = MatSoftPtr.Get();
 	UObject* obj2 =  MatSoft.ResolveObject();

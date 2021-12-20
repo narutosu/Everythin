@@ -11,6 +11,12 @@ AActorTwo::AActorTwo()
 
 }
 
+AActorTwo::~AActorTwo()
+{
+	int x = 12;
+	x = 23;
+}
+
 // Called when the game starts or when spawned
 void AActorTwo::BeginPlay()
 {

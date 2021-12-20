@@ -14,6 +14,7 @@ class EVERYTHIN_API AActorTwo : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AActorTwo();
+	~AActorTwo();
 
 protected:
 	// Called when the game starts or when spawned
