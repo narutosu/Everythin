@@ -1,4 +1,6 @@
 问题
+FGCObjectScopeGuard
+RemoveFromRoot跟MarkPendingKill的区别，RemoveFromRoot后isValid函数能否检测出对象不能使用？
 **********是***  2:ChunkDownLoader是否会删除无用Chunk
 ********** ****   1:四种引用的加载实验，蓝图与c++各自的表示方法。SoftObjecReference，SotfObjectPath,SoftObjectPtr
 

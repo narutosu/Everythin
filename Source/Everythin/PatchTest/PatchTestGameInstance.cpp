@@ -10,26 +10,30 @@
 void UPatchTestGameInstance::Init()
 {
     Super::Init();
-    //DefaultGame.iniÖĞÅäÖÃµÄurl¡£±¾ÀıÊÇ 127.0.0.1/EverythinCDN¡£¿ÉÒÔÖ¸¶¨¶à¸ö
-    const FString DeploymentName = "DeploymentName_EverythinLive";
-    //ÔÚÉÏÃæµÄurlÄ¿Â¼ÏÂÑ°ÕÒÎÄ¼ş¼Ğ£¬ÎÄ¼ş¼ĞÃûÎª EverythinKey
+
+    //DefaultGame.iniä¸­é…ç½®çš„urlã€‚æœ¬ä¾‹æ˜¯ cdn-framw.h3d.com.cn/framw_hot_update/UE4/EverythinCDNã€‚
+    const FString DeploymentName = "H3D_DeploymentName_EverythinLive";
+    //åœ¨ä¸Šé¢çš„urlç›®å½•ä¸‹å¯»æ‰¾æ–‡ä»¶å¤¹ï¼Œæ–‡ä»¶å¤¹åä¸º EverythinKeyã€‚
+    //æ›´æ–°æ˜¯ä»¥è¿™ä¸ªidä½œä¸ºæ›´æ–°è·¯å¾„ï¼Œå¹¶ç”¨å®ƒè¿›è¡Œæ›´æ–°æ£€æŸ¥ï¼ˆæ˜¯å¦å·²ç»æ›´æ–°ï¼‰ï¼Œæœ¬åœ°idç›¸åŒåˆ™è·³è¿‡æ›´æ–°
     const FString ContentBuildId = "EverythinKey";
 
-    // initialize the chunk downloader
+    //è·å–FChunkDownloaderå•ä¾‹
     TSharedRef<FChunkDownloader> Downloader = FChunkDownloader::GetOrCreate();
-
-    //³õÊ¼»¯²ÎÊıÕâÁ©±äÁ¿
-    //FPaths::ProjectPersistentDownloadDir()/PakCacheÄ¿Â¼ÏÂ; ¼ì²éLocalManifest.txt¸úÏàÍ¬Ä¿Â¼µÄ.pakÎÄ¼şÊÇ·ñÒ»ÖÂ
-    //Ò»ÖÂµÄ±ê×¼ÊÇ pakÃû×Ö¸ú´óĞ¡Ò»ÖÂ¡£²»Ò»ÖÂµÄÉ¾³ıpak£¬²¢ÇÒÔÚLocalManifest.txtÖĞÉ¾³ı¡£
+    /* 
+    å‚æ•°ï¼šåˆå§‹åŒ–æ›´æ–°å¹³å°ï¼š"Windows" æœ€å¤§åŒæ—¶ä¸‹è½½æ•°é‡ï¼š8
+    æ‰§è¡Œè¿‡ç¨‹ï¼šåœ¨FPaths::ProjectPersistentDownloadDir()/PakCacheç›®å½•ä¸‹; æ£€æŸ¥LocalManifest.txtè·Ÿç›¸åŒç›®å½•çš„.pakæ–‡ä»¶æ˜¯å¦ä¸€è‡´
+    ä¸€è‡´çš„æ ‡å‡†æ˜¯ pakåå­—è·Ÿå¤§å°ä¸€è‡´ã€‚ä¸ä¸€è‡´çš„åˆ é™¤pakï¼Œå¹¶ä¸”åœ¨LocalManifest.txtä¸­åˆ é™¤å¯¹åº”è¡Œã€‚
+    ç»è¿‡è¿™é‚£ä¸€æ­¥ï¼ŒLocalManifest.txtä¸­è·Ÿæœ¬åœ°pakå·²ç»ä¸€è‡´
+    */
     Downloader->Initialize("Windows", 8);
 
-    // load the cached build ID
-    //¶Ô±È CachedBuildManifest.txt¸úLocalManifest.txtÖĞµÄÁĞ±í£¨¾­¹ıÉÏÃæÄÇÒ»²½£¬LocalManifest.txtÖĞ¸ú±¾µØpakÒÑ¾­Ò»ÖÂ£©
-    //É¾³ıÔÚCachedBuildManifest.txtÃ»ÓĞµÄpak,²¢¸üĞÂLocalManifest.txt
-    //¶ÔCachedBuildManifest.txtÖĞµÄpak´´½¨chunkÈÎÎñ¡££¨Chunks¸úPakFiles±äÁ¿£©¡£¹©ºóĞø²½ÖèÖ´ĞĞ¡£
+    /*å¯¹æ¯” CachedBuildManifest.txtè·ŸLocalManifest.txtä¸­çš„åˆ—è¡¨
+    åœ¨LocalManifest.txtä¸­åˆ é™¤CachedBuildManifest.txtä¸­æ²¡æœ‰çš„pak,å¹¶æ›´æ–°LocalManifest.txt
+    å¯¹CachedBuildManifest.txtä¸­çš„pakåˆ›å»ºchunkä»»åŠ¡ã€‚ï¼ˆChunksè·ŸPakFileså˜é‡ï¼‰ã€‚ä¾›åç»­æ­¥éª¤æ‰§è¡Œã€‚
+    */
     Downloader->LoadCachedBuild(DeploymentName);
 
-    // update the build manifest file
+    // ä¸‹è½½è¿œç¨‹ BuildManifest-{platformName}.txtæ–‡ä»¶ã€‚æ ¼å¼å›ºå®šä¸”å†™æ­»ã€‚æœ¬ä¾‹ä¸º BuildManifest-Windows.txt
     TFunction<void(bool bSuccess)> UpdateCompleteCallback = [&](bool bSuccess) {
         UE_LOG(LogTemp, Display, TEXT("OnManifestUpdateComplete lambda"));
         OnManifestUpdateComplete(bSuccess); 
@@ -61,18 +65,23 @@ bool UPatchTestGameInstance::PatchGame()
             UE_LOG(LogTemp, Display, TEXT("Chunk %i status: %i"), ChunkID, ChunkStatus);
         }
 
+        /*
+        æ ¹æ®ä¸‹è½½çš„Manifest.txtåˆ†æå‡ºè¿˜éœ€è¦ä¸‹è½½çš„æ–‡ä»¶å¹¶ä¸‹è½½
+        */
         TFunction<void (bool bSuccess)> DownloadCompleteCallback = [&](bool bSuccess){
             UE_LOG(LogTemp, Warning, TEXT("OnDownloadComplete %d"),bSuccess);
             OnDownloadComplete(bSuccess);
         };
         Downloader->DownloadChunks(ChunkDownloadList, DownloadCompleteCallback, 1);
 
-        // start loading mode
-        TFunction<void (bool bSuccess)> LoadingModeCompleteCallback = [&](bool bSuccess){
-            UE_LOG(LogTemp, Warning, TEXT("OnLoadingModeComplete %d"), bSuccess);
-            OnLoadingModeComplete(bSuccess);
-        };
-        Downloader->BeginLoadingMode(LoadingModeCompleteCallback);
+        /*
+        æ­¤è°ƒç”¨æš‚æ—¶æ²¡æ˜ç™½å…¶ç”¨æ„ã€‚çœ‹ç€åƒæ˜¯è·Ÿä¸‹è½½è¿›åº¦ç›¸å…³ã€‚ä½†æ˜¯æ— æ­¤è°ƒç”¨ä¹Ÿèƒ½è·å–è¿›åº¦ã€‚æ³¨é‡Šæ‰ä¹Ÿä¸å½±å“åŠŸèƒ½
+        */
+		TFunction<void(bool bSuccess)> LoadingModeCompleteCallback = [&](bool bSuccess) {
+			UE_LOG(LogTemp, Warning, TEXT("OnLoadingModeComplete %d"), bSuccess);
+			OnLoadingModeComplete(bSuccess);
+		};
+		Downloader->BeginLoadingMode(LoadingModeCompleteCallback);
         return true;
     }
 
@@ -109,7 +118,7 @@ if (bSuccess)
             DownloadedChunks.Add(ChunkID);
         }
 
-        //Mount the chunks
+        //æŒ‚è½½ä¸‹è½½çš„pakåŒ…ã€‚
         TFunction<void(bool bSuccess)> MountCompleteCallback = [&](bool bSuccess){OnMountComplete(bSuccess);};
         Downloader->MountChunks(DownloadedChunks, MountCompleteCallback);
 
