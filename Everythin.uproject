@@ -35,5 +35,9 @@
 			"Name": "ChunkDownloader",
 			"Enabled": true
 		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		}
 	]
 }

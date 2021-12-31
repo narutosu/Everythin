@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MoviePlayer/Public/MoviePlayer.h"
 #include "Blueprint/UserWidget.h"
+#include "AssetRegistryModule.h"
 #include "ActionRPGLoadingScreen.h"
 
 DEFINE_LOG_CATEGORY(ResourceManagerLog);
@@ -20,6 +21,14 @@ UResourceManager::UResourceManager()
 #if WITH_EDITOR
 	FCoreUObjectDelegates::OnAssetLoaded.AddUObject(this, &UResourceManager::OnAssetLoaded);
 #endif
+
+	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+	// 当资源新增时会调用FMyClass::OnAsssetAdded
+	AssetRegistryModule.Get().OnAssetAdded().AddStatic(&UResourceManager::OnAssetAdded);
+	TArray<FAssetData> data;
+	AssetRegistryModule.Get().GetAllAssets(data);
+	UE_LOG(ResourceManagerLog, Warning, TEXT("AssetRegistryModule data.Num() %d"), data.Num());
+
 	if (m_GameInstance == nullptr)
 	{
 		m_GameInstance = GWorld ? GWorld->GetGameInstance() : nullptr;
@@ -29,11 +38,16 @@ UResourceManager::UResourceManager()
 
 	//FCoreUObjectDelegates::PreLoadMap.AddUObject(this,&UResourceManager::BeginLoadingScreen);
 	//FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UResourceManager::EndLoadingScreen);
+	// 加载AssetRegistry
+
+
 }
 
 
 UResourceManager::~UResourceManager()
 {
+	//FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+	//AssetRegistryModule.Get().OnAssetAdded().RemoveAll(this);
 }
 
 
@@ -91,3 +105,9 @@ void UResourceManager::OnAssetLoaded(UObject* Asset)
 	UE_LOG(ResourceManagerLog, Warning, TEXT("AssetLoades %s"), *Asset->GetName());
 }
 
+void UResourceManager::OnAssetAdded(const FAssetData& Asset)
+{
+	UE_LOG(ResourceManagerLog, Warning, TEXT("OnAssetAdded %s"), *Asset.AssetName.ToString());
+	// 资源注册表新发现了一个资源
+	//UE_LOG(ResourceManagerLog, Warning, TEXT("OnAssetAdded %s"), Asset.AssetName);
+}

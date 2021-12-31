@@ -53,4 +53,7 @@ protected:
 
 	UFUNCTION(BlueprintPure, Category = "Patching|Stats")
 	void GetLoadingProgress(int32& FilesDownloaded, int32& TotalFilesToDownload, float& DownloadPercent, int32& ChunksMounted, int32& TotalChunksToMount, float& MountPercent) const;
+
+	void MountPakTest();
+
 };

@@ -6,6 +6,9 @@
 #include "ChunkDownloader.h"
 #include "Misc/CoreDelegates.h"
 #include "AssetRegistryModule.h"
+#include "Engine/StreamableManager.h"
+#include "../AssetRef/ActorTwo.h"
+#include "IPlatformFilePak.h"
 
 void UPatchTestGameInstance::Init()
 {
@@ -39,6 +42,9 @@ void UPatchTestGameInstance::Init()
         OnManifestUpdateComplete(bSuccess); 
     };
     Downloader->UpdateBuild(DeploymentName, ContentBuildId, UpdateCompleteCallback);
+    auto x = 12;
+
+    MountPakTest();
 }
 
 
@@ -164,4 +170,74 @@ void UPatchTestGameInstance::OnLoadingModeComplete(bool bSuccess)
 void UPatchTestGameInstance::OnMountComplete(bool bSuccess)
 {
     OnMountCompleteDele.Broadcast(bSuccess);
+}
+
+void UPatchTestGameInstance::MountPakTest()
+{
+ //#if IS_PROGRAM
+    FString SavePakDir0 = FPaths::ProjectSavedDir() + TEXT("testPak_p.pak");
+    FString SavePakDir1 = FPaths::ProjectSavedDir() + TEXT("testPak_001_p.pak");
+    FString SavePakDir = FPaths::ProjectSavedDir() + TEXT("testPak_002_p.pak");
+    IPlatformFile& PlatformFile = FPlatformFileManager::Get().GetPlatformFile();
+
+    FPakPlatformFile* PakPlatformFile = new FPakPlatformFile();
+    PakPlatformFile->Initialize(&PlatformFile, TEXT(""));
+    FPlatformFileManager::Get().SetPlatformFile(*PakPlatformFile);
+
+
+    //FPakFile PakFile(PakPlatformFile,*SavePakDir, false);
+
+	FString MountPoint(FPaths::ProjectContentDir()); //"/../../../Engine/Content/"对应路径  
+	//PakFile.SetMountPoint(*MountPoint);
+	//对pak文件mount到前面设定的MountPoint  
+	if (PakPlatformFile->Mount(*SavePakDir0, 0, *MountPoint))
+	{
+		UE_LOG(LogClass, Log, TEXT("Mount Success testPak_p"));
+	}
+	else
+	{
+		UE_LOG(LogClass, Error, TEXT("Mount Failed testPak_p"));
+	}
+    if (PakPlatformFile->Mount(*SavePakDir1, 0, *MountPoint))
+    {
+        UE_LOG(LogClass, Log, TEXT("Mount Success testPak_001_p"));
+    }
+	else
+	{
+		UE_LOG(LogClass, Error, TEXT("Mount Failed testPak_001_p"));
+	}
+	if (PakPlatformFile->Mount(*SavePakDir, 0, *MountPoint))
+	{
+		UE_LOG(LogClass, Log, TEXT("Mount Success testPak_002_p"));
+		TArray<FString> FileList;
+		//得到Pak文件中MountPoint路径下的所有文件  
+// 		PakFile.FindFilesAtPath(FileList, *PakFile.GetMountPoint(), true, false, true);
+// 		FStreamableManager StreamableManager;
+// 		//对文件的路径进行处理,转换成StaticLoadObject的那种路径格式  
+// 		FString AssetName = FileList[0];
+// 
+// 		UE_LOG(LogClass, Log, TEXT("Mount Success AssetName：%s "), *AssetName);
+// 		FString AssetShortName = FPackageName::GetShortName(AssetName);
+// 		FString LeftStr;
+// 		FString RightStr;
+// 		AssetShortName.Split(TEXT("."), &LeftStr, &RightStr);
+// 		AssetName = TEXT("/Engine/") + LeftStr + TEXT(".") + LeftStr;    //我们加载的时候用的是这个路径  
+//         FSoftObjectPath reference = AssetName;
+// 		//加载UObject  
+// 		TSharedPtr<FStreamableHandle> LoadObjectHandle = StreamableManager.RequestSyncLoad(reference);
+// 		if (LoadObjectHandle->GetLoadedAsset() != nullptr)
+// 		{
+// 			UE_LOG(LogClass, Log, TEXT("Object Load Success..."))
+// 				//TheLoadObject = LoadObject;
+// 		}
+// 		else
+// 		{
+// 			UE_LOG(LogClass, Log, TEXT("Can not Load asset..."))
+// 		}
+	}
+	else
+	{
+		UE_LOG(LogClass, Error, TEXT("Mount Failed testPak_002_p"));
+	}
+//#endif
 }
