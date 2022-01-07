@@ -20,4 +20,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Print")
 		static void PrintObject(FText objPath);
+
+	UFUNCTION(BlueprintCallable, Category = "Print")
+		static void MountTest();
 };

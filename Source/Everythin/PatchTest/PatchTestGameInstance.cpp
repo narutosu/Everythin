@@ -44,7 +44,7 @@ void UPatchTestGameInstance::Init()
     Downloader->UpdateBuild(DeploymentName, ContentBuildId, UpdateCompleteCallback);
     auto x = 12;
 
-    MountPakTest();
+    //MountPakTest();
 }
 
 
@@ -188,9 +188,16 @@ void UPatchTestGameInstance::MountPakTest()
     //FPakFile PakFile(PakPlatformFile,*SavePakDir, false);
 
 	FString MountPoint(FPaths::ProjectContentDir()); //"/../../../Engine/Content/"对应路径  
+    
+    for (int i = 0; i < 3000; i++) {
+        FString SavePakDir4 = FPaths::ProjectContentDir() + TEXT("pakchunk1007-WindowsNoEditor_")+ UTF8_TO_TCHAR(std::to_string(i).c_str())+TEXT("_p.pak");
+        PakPlatformFile->Mount(*SavePakDir4, 0);
+    }
+
+
 	//PakFile.SetMountPoint(*MountPoint);
 	//对pak文件mount到前面设定的MountPoint  
-	if (PakPlatformFile->Mount(*SavePakDir0, 0, *MountPoint))
+	if (PakPlatformFile->Mount(*SavePakDir0, 0))
 	{
 		UE_LOG(LogClass, Log, TEXT("Mount Success testPak_p"));
 	}
@@ -198,7 +205,7 @@ void UPatchTestGameInstance::MountPakTest()
 	{
 		UE_LOG(LogClass, Error, TEXT("Mount Failed testPak_p"));
 	}
-    if (PakPlatformFile->Mount(*SavePakDir1, 0, *MountPoint))
+    if (PakPlatformFile->Mount(*SavePakDir1, 0))
     {
         UE_LOG(LogClass, Log, TEXT("Mount Success testPak_001_p"));
     }
@@ -206,7 +213,7 @@ void UPatchTestGameInstance::MountPakTest()
 	{
 		UE_LOG(LogClass, Error, TEXT("Mount Failed testPak_001_p"));
 	}
-	if (PakPlatformFile->Mount(*SavePakDir, 0, *MountPoint))
+	if (PakPlatformFile->Mount(*SavePakDir, 0))
 	{
 		UE_LOG(LogClass, Log, TEXT("Mount Success testPak_002_p"));
 		TArray<FString> FileList;

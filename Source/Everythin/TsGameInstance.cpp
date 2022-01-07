@@ -5,6 +5,7 @@
 
 void UTsGameInstance::Init()
 {
+
 }
 
 void UTsGameInstance::OnStart()
