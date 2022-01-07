@@ -7,3 +7,4 @@
 
 记录：
 热更方案：https://blog.csdn.net/BDalasja/article/details/95622429
+设计模式文章：https://www.bilibili.com/read/readlist/rl224395
