@@ -23,4 +23,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Print")
 		static void MountTest();
+
+	static bool MountPak(const FString& PakPath, int32 PakOrder, const FString& InMountPoint = FString());
+
+	static class UPatchTestGameInstance* Instance;
 };

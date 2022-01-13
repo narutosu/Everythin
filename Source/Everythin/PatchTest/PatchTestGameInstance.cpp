@@ -9,6 +9,7 @@
 #include "Engine/StreamableManager.h"
 #include "../AssetRef/ActorTwo.h"
 #include "IPlatformFilePak.h"
+#include "../TestBlueprintFunctionLibrary.h"
 
 void UPatchTestGameInstance::Init()
 {
@@ -45,15 +46,26 @@ void UPatchTestGameInstance::Init()
     auto x = 12;
 
     //MountPakTest();
+
+    //使用IPakPlatformFile
+// 	PlatformFile = &FPlatformFileManager::Get().GetPlatformFile();
+// 	PakPlatformFile = MakeShareable(new FPakPlatformFile());
+// 	PakPlatformFile->Initialize(PlatformFile, TEXT(""));
+//     FPlatformFileManager::Get().SetPlatformFile(*PakPlatformFile);
+    UTestBlueprintFunctionLibrary::Instance = this;
 }
 
 
 void UPatchTestGameInstance::Shutdown()
 {
     Super::Shutdown();
-
     // Shut down ChunkDownloader
     FChunkDownloader::Shutdown();
+
+//     if (PlatformFile)
+//     {
+//         FPlatformFileManager::Get().SetPlatformFile(*PlatformFile);
+//     }
 }
 
 bool UPatchTestGameInstance::PatchGame()
@@ -136,7 +148,7 @@ if (bSuccess)
         UE_LOG(LogTemp, Display, TEXT("Load process failed"));
 
         // call the delegate
-        OnPatchComplete.Broadcast(false);
+        OnMountCompleteDele.Broadcast(true);
     }
 #endif
 }

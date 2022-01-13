@@ -11,6 +11,9 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPatchCompleteDelegate, bool, Succee
  * 
  */
 
+class IPlatformFile;
+class FPakPlatformFile;
+
 UCLASS()
 class EVERYTHIN_API UPatchTestGameInstance : public UTsGameInstance
 {
@@ -55,5 +58,10 @@ protected:
 	void GetLoadingProgress(int32& FilesDownloaded, int32& TotalFilesToDownload, float& DownloadPercent, int32& ChunksMounted, int32& TotalChunksToMount, float& MountPercent) const;
 
 	static void MountPakTest();
+
+private:
+	IPlatformFile* PlatformFile = nullptr;
+public:
+	TSharedPtr<FPakPlatformFile>  PakPlatformFile;
 
 };
