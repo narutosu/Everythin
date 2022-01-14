@@ -10,11 +10,11 @@ public class EverythinTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.AddRange( new string[] { "Everythin"  ,"TestModule"} );
-		if(Configuration==UnrealTargetConfiguration.Shipping)
-        {
-			BuildEnvironment = TargetBuildEnvironment.Unique;
-			bUseChecksInShipping = true;
-			bUseLoggingInShipping = true;
-        }
+		// if(Configuration==UnrealTargetConfiguration.Shipping)
+        // {
+		// 	BuildEnvironment = TargetBuildEnvironment.Unique;
+		// 	bUseChecksInShipping = true;
+		// 	bUseLoggingInShipping = true;
+        // }
 	}
 }
