@@ -3,12 +3,11 @@
 
 class EVERYTHIN_API FTestTask :public FNonAbandonableTask
 {
-public:
+	friend class FAutoDeleteAsyncTask<FTestTask>;
 	FTestTask(int32 prime_count);
 	~FTestTask();
 
 	int32 prime_count;
-public:
 
 	FORCENOINLINE TStatId GetStatId() const
 	{

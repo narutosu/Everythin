@@ -29,7 +29,7 @@ void ATaskActor::RunPrimeTask(int32 num_primes)
 
 void ATaskActor::RunPrimeTaskOnMain(int32 num_primes)
 {
-	FTestTask* task = new FTestTask(num_primes);
-	task->DoWorkMain();
-	delete task;
+// 	FTestTask* task = new FTestTask(num_primes);
+// 	task->DoWorkMain();
+// 	delete task;
 }

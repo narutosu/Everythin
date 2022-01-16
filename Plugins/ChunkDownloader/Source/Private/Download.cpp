@@ -168,7 +168,7 @@ void FDownload::OnDownloadComplete(const FString& Url, int TryNumber, int32 Http
 
 		// if we fail validation, delete the file and start over
 		UE_LOG(LogChunkDownloader, Error, TEXT("%s from %s failed validation"), *TargetFile, *Url);
-		IPlatformFile::GetPlatformPhysical().DeleteFile(*TargetFile);
+		//IPlatformFile::GetPlatformPhysical().DeleteFile(*TargetFile);
 	}
 
 	// check again to make sure we have enough space for this download

@@ -16,7 +16,8 @@ void UPatchTestGameInstance::Init()
     Super::Init();
 
     //DefaultGame.ini中配置的url。本例是 cdn-framw.h3d.com.cn/framw_hot_update/UE4/EverythinCDN。
-    const FString DeploymentName = "H3D_DeploymentName_EverythinLive";
+    //const FString DeploymentName = "H3D_DeploymentName_EverythinLive";
+    const FString DeploymentName = "DeploymentName_EverythinLive";
     //在上面的url目录下寻找文件夹，文件夹名为 EverythinKey。
     //更新是以这个id作为更新路径，并用它进行更新检查（是否已经更新），本地id相同则跳过更新
     const FString ContentBuildId = "EverythinKey";
